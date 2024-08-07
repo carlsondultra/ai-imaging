@@ -29,6 +29,15 @@ export const useEditor = () => {
       initialCanvas.add(initialWorkspace)
       initialCanvas.centerObject(initialWorkspace) //centering workspace
       initialCanvas.clipPath = initialWorkspace // every element not in central workspace will not be visible
+
+      const test = new fabric.Rect({
+        height: 100,
+        width: 100,
+        fill: "black",
+      })
+
+      initialCanvas.add(test)
+      initialCanvas.centerObject(test)
     },
     []
   );
