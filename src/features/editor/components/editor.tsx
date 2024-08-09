@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import { Navbar } from "./navbar";
 import { Sidebar } from "./sidebar";
 import { Toolbar } from "./toolbar";
+import { Footer } from "./footer";
 
 export const Editor = () => {
   const { init } = useEditor();
@@ -35,6 +36,7 @@ export const Editor = () => {
           <div className="flex-1 h-[calc(100%-124px)] bg-muted" ref={containerRef}>
             <canvas ref={canvasRef} />
           </div>
+          <Footer />
         </main>
       </div>
     </div>
