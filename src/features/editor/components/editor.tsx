@@ -8,6 +8,7 @@ import { Sidebar } from "./sidebar";
 import { Toolbar } from "./toolbar";
 import { Footer } from "./footer";
 import { ActiveTool } from "../types";
+import { ShapeSidebar } from "./shape-sidebar";
 
 export const Editor = () => {
   const [activeTool, setActiveTool] = useState<ActiveTool>("select"); //defaulttool is select when using editor
@@ -62,6 +63,10 @@ export const Editor = () => {
         <Sidebar 
         activeTool={activeTool}
         onChangeActiveTool={onChangeActiveTool}
+        />
+        <ShapeSidebar
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
         />
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
           <Toolbar />
