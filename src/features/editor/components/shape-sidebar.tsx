@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { ActiveTool } from "../types";
 import { ToolSidebarHeader } from "./tool-sidebar-header";
+import { ToolSidebarClose } from "./tool-sidebar-close";
 
 interface ShapeSidebarProps {
     activeTool: ActiveTool
@@ -11,6 +12,10 @@ export const ShapeSidebar = ({
     activeTool,
     onChangeActiveTool,
 }: ShapeSidebarProps) => {
+    const onClose = () => {
+        onChangeActiveTool("select")
+    }
+
     return (
         <aside
             className={cn(
@@ -22,6 +27,7 @@ export const ShapeSidebar = ({
                 title="Shapes"
                 description="Add shapes to canvas"
             />
+            <ToolSidebarClose onClick={onClose} />
         </aside>
     )
 }
