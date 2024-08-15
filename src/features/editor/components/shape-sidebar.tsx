@@ -9,11 +9,13 @@ import { IoTriangle } from "react-icons/io5";
 import { FaDiamond } from "react-icons/fa6";
 
 interface ShapeSidebarProps {
+    editor: any
     activeTool: ActiveTool
     onChangeActiveTool: (tool: ActiveTool) => void
 }
 
 export const ShapeSidebar = ({
+    editor,
     activeTool,
     onChangeActiveTool,
 }: ShapeSidebarProps) => {
@@ -35,7 +37,7 @@ export const ShapeSidebar = ({
             <ScrollArea>
                 <div className="grid grid-cols-3 gap-4 p-4">
                     <ShapeTool 
-                        onClick={() => {}}
+                        onClick={() => editor?.addCircle()}
                         icon={FaCircle}
                     />
                     <ShapeTool 
