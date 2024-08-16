@@ -2,19 +2,15 @@ import { fabric } from "fabric";
 import { useCallback, useState, useMemo } from "react";
 
 import { useAutoResize } from "./use-auto-resize";
-import { BuildEditorProps } from "../types";
+import { BuildEditorProps, CIRCLE_OPTIONS, Editor } from "../types";
 
 const buildEditor = ({
   canvas,
-}: BuildEditorProps) => {
+}: BuildEditorProps): Editor => {
   return {
     addCircle: () => {
       const object = new fabric.Circle({
-        radius: 150,
-        height: 100,
-        width: 100,
-        fill:"#000000",
-        stroke: "#000000",
+        ...CIRCLE_OPTIONS,
       })
       
       canvas.add(object)

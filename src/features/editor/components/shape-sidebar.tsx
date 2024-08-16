@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ActiveTool } from "../types";
+import { ActiveTool, Editor } from "../types";
 import { ToolSidebarHeader } from "./tool-sidebar-header";
 import { ToolSidebarClose } from "./tool-sidebar-close";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -9,7 +9,7 @@ import { IoTriangle } from "react-icons/io5";
 import { FaDiamond } from "react-icons/fa6";
 
 interface ShapeSidebarProps {
-    editor: any
+    editor: Editor | undefined
     activeTool: ActiveTool
     onChangeActiveTool: (tool: ActiveTool) => void
 }
