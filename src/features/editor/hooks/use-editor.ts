@@ -2,7 +2,7 @@ import { fabric } from "fabric";
 import { useCallback, useState, useMemo } from "react";
 
 import { useAutoResize } from "./use-auto-resize";
-import { BuildEditorProps, CIRCLE_OPTIONS, Editor } from "../types";
+import { BuildEditorProps, CIRCLE_OPTIONS, Editor, RECTANGLE_OPTIONS } from "../types";
 
 const buildEditor = ({ canvas }: BuildEditorProps): Editor => {
   const getWorkspace = () => {
@@ -13,8 +13,17 @@ const buildEditor = ({ canvas }: BuildEditorProps): Editor => {
     const workspace = getWorkspace();
     const center = workspace?.getCenterPoint()
 
+    if (!center) return
+
+    // @ts-ignore
     canvas._centerObject(object, center)
   };
+
+  const addToCanvas = (object: fabric.Object) => {
+    center(object)
+    canvas.add(object)
+    canvas.setActiveObject(object)
+  }
 
   return {
     addCircle: () => {
@@ -22,9 +31,16 @@ const buildEditor = ({ canvas }: BuildEditorProps): Editor => {
         ...CIRCLE_OPTIONS,
       });
 
-      center(object)
-      canvas.add(object);
-      canvas.setActiveObject(object);
+      addToCanvas(object)
+    },
+    addSoftRectangle: () => {
+      const object = new fabric.Rect({
+        ...RECTANGLE_OPTIONS,
+        rx: 50,
+        ry: 50,
+      });
+
+      addToCanvas(object)
     },
   };
 };

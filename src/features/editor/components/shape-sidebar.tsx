@@ -41,7 +41,7 @@ export const ShapeSidebar = ({
                         icon={FaCircle}
                     />
                     <ShapeTool 
-                        onClick={() => {}}
+                        onClick={() => editor?.addSoftRectangle()}
                         icon={FaSquare}
                     />
                     <ShapeTool 
