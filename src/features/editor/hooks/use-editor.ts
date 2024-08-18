@@ -42,6 +42,13 @@ const buildEditor = ({ canvas }: BuildEditorProps): Editor => {
 
       addToCanvas(object)
     },
+    addRectangle: () => {
+      const object = new fabric.Rect({
+        ...RECTANGLE_OPTIONS,
+      });
+
+      addToCanvas(object)
+    },
   };
 };
 
