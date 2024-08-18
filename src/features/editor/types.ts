@@ -48,4 +48,5 @@ export type ActiveTool =
   export interface Editor {
     addCircle: () => void
     addSoftRectangle: () => void
+    addRectangle: () => void
   }
