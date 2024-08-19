@@ -49,16 +49,16 @@ export const ShapeSidebar = ({
                         icon={FaSquareFull}
                     />
                     <ShapeTool 
-                        onClick={() => {}}
+                        onClick={() => editor?.addTriangle()}
                         icon={IoTriangle}
                     />
                     <ShapeTool 
-                        onClick={() => {}}
+                        onClick={() => editor?.addInverseTriangle()}
                         icon={IoTriangle}
                         iconClassName="rotate-180"
                     />
                     <ShapeTool 
-                        onClick={() => {}}
+                        onClick={() => editor?.addDiamond()}
                         icon={FaDiamond}
                     />
                 </div>
