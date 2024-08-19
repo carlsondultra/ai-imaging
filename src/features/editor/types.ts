@@ -22,7 +22,7 @@ export type ActiveTool =
   export const STROKE_WIDTH = 2
 
   export const CIRCLE_OPTIONS = {
-    radius: 150,
+    radius: 225,
     left: 100,
     top: 100,
     fill: FILL_COLOR,
@@ -47,8 +47,8 @@ export type ActiveTool =
     fill: FILL_COLOR,
     stroke: STROKE_COLOR,
     strokeWidth: STROKE_WIDTH,
-    width: 400,
-    height: 400,
+    width: 600,
+    height: 600,
     angle: 0,
   }
 
