@@ -112,6 +112,7 @@ export const useEditor = () => {
   useCanvasEvents({
     canvas,
     setSelectedObjects,
+    container,
   })
 
   const editor = useMemo(() => {
