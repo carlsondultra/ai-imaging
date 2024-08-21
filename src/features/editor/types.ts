@@ -74,6 +74,9 @@ export type ActiveTool =
   }
 
   export interface Editor {
+    changeFillColor: (value: string) => void
+    changeStrokeWidth: ( value: number) => void
+    changeStrokeColor: ( value: string) => void
     addCircle: () => void
     addSoftRectangle: () => void
     addRectangle: () => void
