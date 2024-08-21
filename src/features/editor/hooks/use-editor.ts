@@ -2,7 +2,7 @@ import { fabric } from "fabric";
 import { useCallback, useState, useMemo } from "react";
 
 import { useAutoResize } from "./use-auto-resize";
-import { BuildEditorProps, CIRCLE_OPTIONS, DIAMOND_OPTIONS, Editor, RECTANGLE_OPTIONS, TRIANGLE_OPTIONS } from "../types";
+import { BuildEditorProps, CIRCLE_OPTIONS, DIAMOND_OPTIONS, Editor, FILL_COLOR, RECTANGLE_OPTIONS, STROKE_COLOR, STROKE_WIDTH, TRIANGLE_OPTIONS } from "../types";
 import { useCanvasEvents } from "./use-canvas-events";
 
 const buildEditor = ({ canvas }: BuildEditorProps): Editor => {
@@ -100,6 +100,10 @@ export const useEditor = () => {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [selectedObjects, setSelectedObjects] = useState<fabric.Object[]>([])
 
+  const [fillColor, setFillColor] = useState(FILL_COLOR)
+  const [strokeColor, setStrokeColor] = useState(STROKE_COLOR)
+  const [strokeWidth, setStrokeWidth] = useState(STROKE_WIDTH)
+
   useAutoResize({
     canvas,
     container,
@@ -114,11 +118,25 @@ export const useEditor = () => {
     if (canvas) {
       return buildEditor({
         canvas,
+        fillColor,
+        strokeColor,
+        strokeWidth,
+        setFillColor,
+        setStrokeColor,
+        setStrokeWidth,
       });
     }
 
     return undefined;
-  }, [canvas]);
+  }, [
+    canvas,
+    fillColor,
+    setFillColor,
+    strokeColor,
+    setStrokeColor,
+    strokeWidth,
+    setStrokeWidth,
+  ]);
 
   const init = useCallback(
     ({
