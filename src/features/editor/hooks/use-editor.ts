@@ -5,7 +5,15 @@ import { useAutoResize } from "./use-auto-resize";
 import { BuildEditorProps, CIRCLE_OPTIONS, DIAMOND_OPTIONS, Editor, FILL_COLOR, RECTANGLE_OPTIONS, STROKE_COLOR, STROKE_WIDTH, TRIANGLE_OPTIONS } from "../types";
 import { useCanvasEvents } from "./use-canvas-events";
 
-const buildEditor = ({ canvas }: BuildEditorProps): Editor => {
+const buildEditor = ({ 
+  canvas,
+  fillColor,
+  setFillColor,
+  strokeColor,
+  setStrokeColor,
+  strokeWidth,
+  setStrokeWidth,
+}: BuildEditorProps): Editor => {
   const getWorkspace = () => {
     return canvas.getObjects().find((object) => object.name === "clip");
   };
@@ -27,6 +35,24 @@ const buildEditor = ({ canvas }: BuildEditorProps): Editor => {
   }
 
   return {
+    changeFillColor: (value: string) => {
+      setFillColor(value)
+      canvas.getActiveObjects().forEach((object) => {
+        object.set({ fill: value })
+      })
+    },
+    changeStrokeColor: (value: string) => {
+      setStrokeColor(value)
+      canvas.getActiveObjects().forEach((object) => {
+        object.set({ stroke: value })
+      })
+    },
+    changeStrokeWidth: (value: number) => {
+      setStrokeWidth(value)
+      canvas.getActiveObjects().forEach((object) => {
+        object.set({ strokeWidth: value })
+      })
+    },
     addCircle: () => {
       const object = new fabric.Circle({
         ...CIRCLE_OPTIONS,
