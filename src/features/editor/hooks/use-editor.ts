@@ -4,6 +4,7 @@ import { useCallback, useState, useMemo } from "react";
 import { useAutoResize } from "./use-auto-resize";
 import { BuildEditorProps, CIRCLE_OPTIONS, DIAMOND_OPTIONS, Editor, FILL_COLOR, RECTANGLE_OPTIONS, STROKE_COLOR, STROKE_WIDTH, TRIANGLE_OPTIONS } from "../types";
 import { useCanvasEvents } from "./use-canvas-events";
+import { isTextType } from "../utils";
 
 const buildEditor = ({ 
   canvas,
@@ -44,6 +45,11 @@ const buildEditor = ({
     changeStrokeColor: (value: string) => {
       setStrokeColor(value)
       canvas.getActiveObjects().forEach((object) => {
+        // No stroke on text types
+        if (isTextType(object.type)) {
+          object.set({ fill: value })
+          return
+        }
         object.set({ stroke: value })
       })
     },
@@ -118,6 +124,9 @@ const buildEditor = ({
 
       addToCanvas(object)
     },
+    fillColor,
+    strokeWidth,
+    strokeColor,
   };
 };
 
