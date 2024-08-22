@@ -83,4 +83,7 @@ export type ActiveTool =
     addTriangle: () => void
     addInverseTriangle: () => void
     addDiamond: () => void
+    fillColor: string
+    strokeColor: string
+    strokeWidth: number
   }
