@@ -124,6 +124,7 @@ const buildEditor = ({
 
       addToCanvas(object)
     },
+    canvas,
     fillColor,
     strokeWidth,
     strokeColor,
