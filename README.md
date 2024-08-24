@@ -1,4 +1,4 @@
-graphic design SaaS platform which allows users to manipulate text and shapes
+this is a graphic design SaaS platform which allows users to manipulate text and shapes
 
 ## Getting Started
 
