@@ -6,7 +6,7 @@ import { ActiveTool } from "../types"
 
 interface SidebarProps {
     activeTool: ActiveTool
-    onChangeActiveTool: (tool: string) => void
+    onChangeActiveTool: (tool: ActiveTool) => void
 }
 
 export const Sidebar = ({
