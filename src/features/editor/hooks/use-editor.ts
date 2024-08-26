@@ -2,7 +2,7 @@ import { fabric } from "fabric";
 import { useCallback, useState, useMemo } from "react";
 
 import { useAutoResize } from "./use-auto-resize";
-import { BuildEditorProps, CIRCLE_OPTIONS, DIAMOND_OPTIONS, Editor, FILL_COLOR, RECTANGLE_OPTIONS, STROKE_COLOR, STROKE_WIDTH, TRIANGLE_OPTIONS } from "../types";
+import { BuildEditorProps, CIRCLE_OPTIONS, DIAMOND_OPTIONS, Editor, EditorHookProps, FILL_COLOR, RECTANGLE_OPTIONS, STROKE_COLOR, STROKE_WIDTH, TRIANGLE_OPTIONS } from "../types";
 import { useCanvasEvents } from "./use-canvas-events";
 import { isTextType } from "../utils";
 
@@ -165,7 +165,9 @@ const buildEditor = ({
   };
 };
 
-export const useEditor = () => {
+export const useEditor = ({
+  clearSelectionCallback
+}: EditorHookProps) => {
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [selectedObjects, setSelectedObjects] = useState<fabric.Object[]>([])
@@ -183,6 +185,7 @@ export const useEditor = () => {
     canvas,
     setSelectedObjects,
     container,
+    clearSelectionCallback,
   })
 
   const editor = useMemo(() => {

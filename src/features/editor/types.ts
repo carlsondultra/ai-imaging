@@ -1,6 +1,16 @@
 import { fabric } from "fabric";
 import * as material from "material-colors"
 
+export const selectionDependentTools = [
+  "fill",
+  "font",
+  "filter",
+  "opacity",
+  "remove-bg",
+  "stroke-color",
+  "stroke-width",
+]
+
 //creating array of colors for quick access
 export const colors = [
   material.red["500"],
@@ -85,6 +95,10 @@ export type ActiveTool =
     width: 400,
     height: 400,
     angle: 0,
+  }
+
+  export interface EditorHookProps {
+    clearSelectionCallback?: () => void
   }
 
   export type BuildEditorProps = {
