@@ -14,6 +14,7 @@ const buildEditor = ({
   setStrokeColor,
   strokeWidth,
   setStrokeWidth,
+  selectedObjects,
 }: BuildEditorProps): Editor => {
   const getWorkspace = () => {
     return canvas.getObjects().find((object) => object.name === "clip");
@@ -149,6 +150,7 @@ const buildEditor = ({
     fillColor,
     strokeWidth,
     strokeColor,
+    selectedObjects,
   };
 };
 
@@ -182,6 +184,7 @@ export const useEditor = () => {
         setFillColor,
         setStrokeColor,
         setStrokeWidth,
+        selectedObjects,
       });
     }
 
@@ -189,11 +192,9 @@ export const useEditor = () => {
   }, [
     canvas,
     fillColor,
-    setFillColor,
     strokeColor,
-    setStrokeColor,
     strokeWidth,
-    setStrokeWidth,
+    selectedObjects,
   ]);
 
   const init = useCallback(
