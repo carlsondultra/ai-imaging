@@ -125,6 +125,6 @@ export type ActiveTool =
     canvas: fabric.Canvas
     getActiveFillColor: () => string
     getActiveStrokeColor: () => string
-    strokeWidth: number
+    getActiveStrokeWidth: () => number
     selectedObjects: fabric.Object[],
   }
