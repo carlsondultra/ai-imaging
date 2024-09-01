@@ -75,6 +75,7 @@ const buildEditor = ({
     addCircle: () => {
       const object = new fabric.Circle({
         ...CIRCLE_OPTIONS,
+        //Can remove the following if preservation is not needed - want to start at default
         fill: fillColor,
         stroke: strokeColor,
         strokeWidth: strokeWidth,
