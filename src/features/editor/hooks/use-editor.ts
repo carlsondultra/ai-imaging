@@ -39,6 +39,23 @@ const buildEditor = ({
   }
 
   return {
+
+    //layering functionality
+    bringForward: () => {
+      canvas.getActiveObjects().forEach((object) => {
+        canvas.bringForward(object)
+      })
+
+      canvas.renderAll()
+    },
+    sendBackwards: () => {
+      canvas.getActiveObjects().forEach((object) => {
+        canvas.sendBackwards(object)
+      })
+
+      canvas.renderAll()
+    },
+
     changeFillColor: (value: string) => {
       setFillColor(value)
       canvas.getActiveObjects().forEach((object) => {
