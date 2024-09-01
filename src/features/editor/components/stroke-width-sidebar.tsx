@@ -5,6 +5,7 @@ import { ToolSidebarClose } from "./tool-sidebar-close";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
 
 interface StrokeWidthSidebarProps {
     editor: Editor | undefined
@@ -23,8 +24,12 @@ export const StrokeWidthSidebar = ({
         onChangeActiveTool("select")
     }
 
-    const onChange = (value: number) => {
+    const onChangeStrokeWidth = (value: number) => {
         editor?.changeStrokeWidth(value)
+    }
+
+    const onChangeStrokeType = (value: number[]) => {
+        editor?.changeStrokeDashArray(value)
     }
 
     return (
@@ -45,8 +50,35 @@ export const StrokeWidthSidebar = ({
                     </Label>
                     <Slider 
                         value={[value]}
-                        onValueChange={(values) => onChange(values[0])}
+                        onValueChange={(values) => onChangeStrokeWidth(values[0])}
                     />
+                </div>
+                <div className="p-4 space-y-4 border-b">
+                    <Label className="text-sm">
+                        Stroke type
+                    </Label>
+                    <Button
+                        onClick={() => onChangeStrokeType([])}
+                        variant="secondary"
+                        size="lg"
+                        className="w-full h-16 justify-start text-left"
+                        style={{
+                            padding: "8px 16px"
+                        }}
+                    >
+                        <div className="w-full border-black rounded-full border-4"/>
+                    </Button>
+                    <Button
+                        onClick={() => onChangeStrokeType([5, 5])}
+                        variant="secondary"
+                        size="lg"
+                        className="w-full h-16 justify-start text-left"
+                        style={{
+                            padding: "8px 16px"
+                        }}
+                    >
+                        <div className="w-full border-black rounded-full border-4 border-dashed"/>
+                    </Button>
                 </div>
             </ScrollArea>
 

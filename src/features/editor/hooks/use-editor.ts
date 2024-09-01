@@ -2,7 +2,7 @@ import { fabric } from "fabric";
 import { useCallback, useState, useMemo } from "react";
 
 import { useAutoResize } from "./use-auto-resize";
-import { BuildEditorProps, CIRCLE_OPTIONS, DIAMOND_OPTIONS, Editor, EditorHookProps, FILL_COLOR, RECTANGLE_OPTIONS, STROKE_COLOR, STROKE_WIDTH, TRIANGLE_OPTIONS } from "../types";
+import { BuildEditorProps, CIRCLE_OPTIONS, DIAMOND_OPTIONS, Editor, EditorHookProps, FILL_COLOR, RECTANGLE_OPTIONS, STROKE_COLOR, STROKE_DASH_ARRAY, STROKE_WIDTH, TRIANGLE_OPTIONS } from "../types";
 import { useCanvasEvents } from "./use-canvas-events";
 import { isTextType } from "../utils";
 
@@ -15,6 +15,8 @@ const buildEditor = ({
   strokeWidth,
   setStrokeWidth,
   selectedObjects,
+  strokeDashArray,
+  setStrokeDashArray,
 }: BuildEditorProps): Editor => {
   const getWorkspace = () => {
     return canvas.getObjects().find((object) => object.name === "clip");
@@ -60,6 +62,13 @@ const buildEditor = ({
       setStrokeWidth(value)
       canvas.getActiveObjects().forEach((object) => {
         object.set({ strokeWidth: value })
+      })
+      canvas.renderAll()
+    },
+    changeStrokeDashArray: (value: number[]) => {
+      setStrokeDashArray(value)
+      canvas.getActiveObjects().forEach((object) => {
+        object.set({ strokeDashArray: value })
       })
       canvas.renderAll()
     },
@@ -181,6 +190,17 @@ const buildEditor = ({
 
       return value
     },
+    getActiveStrokeDashArray: () => {
+      const selectedObject = selectedObjects[0]
+
+      if (!selectedObject) {
+        return strokeDashArray
+      }
+
+      const value = selectedObject.get("strokeDashArray") || strokeDashArray
+
+      return value
+    },
     selectedObjects,
   };
 };
@@ -195,6 +215,7 @@ export const useEditor = ({
   const [fillColor, setFillColor] = useState(FILL_COLOR)
   const [strokeColor, setStrokeColor] = useState(STROKE_COLOR)
   const [strokeWidth, setStrokeWidth] = useState(STROKE_WIDTH)
+  const [strokeDashArray, setStrokeDashArray] = useState<number[]>(STROKE_DASH_ARRAY)
 
   useAutoResize({
     canvas,
@@ -214,6 +235,8 @@ export const useEditor = ({
         canvas,
         fillColor,
         strokeColor,
+        strokeDashArray,
+        setStrokeDashArray,
         strokeWidth,
         setFillColor,
         setStrokeColor,
@@ -229,6 +252,7 @@ export const useEditor = ({
     strokeColor,
     strokeWidth,
     selectedObjects,
+    strokeDashArray,
   ]);
 
   const init = useCallback(
