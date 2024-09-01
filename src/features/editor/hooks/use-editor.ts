@@ -47,6 +47,9 @@ const buildEditor = ({
       })
 
       canvas.renderAll()
+
+      const workspace = getWorkspace()
+      workspace?.sendToBack()
     },
     sendBackwards: () => {
       canvas.getActiveObjects().forEach((object) => {
@@ -54,6 +57,9 @@ const buildEditor = ({
       })
 
       canvas.renderAll()
+      
+      const workspace = getWorkspace()
+      workspace?.sendToBack()
     },
 
     changeFillColor: (value: string) => {
