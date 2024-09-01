@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ActiveTool, Editor, STROKE_WIDTH } from "../types";
+import { ActiveTool, Editor, STROKE_DASH_ARRAY, STROKE_WIDTH } from "../types";
 import { ToolSidebarHeader } from "./tool-sidebar-header";
 import { ToolSidebarClose } from "./tool-sidebar-close";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -18,7 +18,8 @@ export const StrokeWidthSidebar = ({
     activeTool,
     onChangeActiveTool,
 }: StrokeWidthSidebarProps) => {
-    const value = editor?.getActiveStrokeWidth() || STROKE_WIDTH
+    const widthValue = editor?.getActiveStrokeWidth() || STROKE_WIDTH
+    const typeValue = editor?.getActiveStrokeDashArray() || STROKE_DASH_ARRAY
 
     const onClose = () => {
         onChangeActiveTool("select")
@@ -49,7 +50,7 @@ export const StrokeWidthSidebar = ({
                         Stroke width
                     </Label>
                     <Slider 
-                        value={[value]}
+                        value={[widthValue]}
                         onValueChange={(values) => onChangeStrokeWidth(values[0])}
                     />
                 </div>
@@ -61,7 +62,10 @@ export const StrokeWidthSidebar = ({
                         onClick={() => onChangeStrokeType([])}
                         variant="secondary"
                         size="lg"
-                        className="w-full h-16 justify-start text-left"
+                        className={cn(
+                            "w-full h-16 justify-start text-left",
+                            JSON.stringify(typeValue) === `[]` && "border-2 border-blue-500"
+                        )}
                         style={{
                             padding: "8px 16px"
                         }}
@@ -72,7 +76,10 @@ export const StrokeWidthSidebar = ({
                         onClick={() => onChangeStrokeType([5, 5])}
                         variant="secondary"
                         size="lg"
-                        className="w-full h-16 justify-start text-left"
+                        className={cn(
+                            "w-full h-16 justify-start text-left",
+                            JSON.stringify(typeValue) === `[5,5]` && "border-2 border-blue-500"
+                        )}
                         style={{
                             padding: "8px 16px"
                         }}
