@@ -151,6 +151,7 @@ export type ActiveTool =
   }
 
   export interface Editor {
+    getActiveFontFamily: () => string
     changeFontFamily: (value: string) => void
     addText: (value: string, options?: ITextboxOptions) => void
     getActiveOpacity: () => number

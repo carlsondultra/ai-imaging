@@ -21,6 +21,7 @@ export const Toolbar = ({
 }: ToolbarProps) => {
   const fillColor = editor?.getActiveFillColor();
   const strokeColor = editor?.getActiveStrokeColor();
+  const fontFamily = editor?.getActiveFontFamily()
 
   const selectedObjectType = editor?.selectedObjects[0]?.type;
 
@@ -90,7 +91,7 @@ export const Toolbar = ({
               className={cn("w-auto px-2 text-sm", activeTool === "font" && "bg-gray-100")}
             >
               <div className="max-w-[100px] truncate">
-                Arial
+                {fontFamily}
               </div>
               <ChevronDown className="size-4 ml-2 shrink-0"/>
             </Button>

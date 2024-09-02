@@ -93,6 +93,7 @@ const buildEditor = ({
       setFontFamily(value)
       canvas.getActiveObjects().forEach((object) => {
         if (isTextType(object.type)) [
+          // @ts-ignore
           object.set({fontFamily: value})
         ]
         object.set({ fill: value })
@@ -223,6 +224,19 @@ const buildEditor = ({
       addToCanvas(object)
     },
     canvas,
+    getActiveFontFamily: () => {
+      const selectedObject = selectedObjects[0]
+
+      if (!selectedObject) {
+        return fontFamily
+      }
+
+      // @ts-ignore
+      // faulty TS library
+      const value = selectedObject.get("fontFamily") || fontFamily
+
+      return value
+    },
     getActiveFillColor: () => {
       const selectedObject = selectedObjects[0]
 
