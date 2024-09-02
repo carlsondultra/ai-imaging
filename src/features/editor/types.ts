@@ -121,13 +121,16 @@ export type ActiveTool =
     strokeWidth: number
     selectedObjects: fabric.Object[]
     strokeDashArray: number[]
+    fontFamily: string
     setStrokeDashArray: (value: number[]) => void
     setFillColor: (value: string) => void
     setStrokeColor: (value: string) => void
     setStrokeWidth: (value: number) => void
+    setFontFamily: (value: string) => void
   }
 
   export interface Editor {
+    changeFontFamily: (value: string) => void
     addText: (value: string, options?: ITextboxOptions) => void
     getActiveOpacity: () => number
     changeOpacity: (value: number) => void
