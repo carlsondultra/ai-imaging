@@ -1,4 +1,5 @@
 import { fabric } from "fabric";
+import { ITextboxOptions } from "fabric/fabric-impl";
 import * as material from "material-colors"
 
 export const selectionDependentTools = [
@@ -127,7 +128,7 @@ export type ActiveTool =
   }
 
   export interface Editor {
-    addText: () => void
+    addText: (value: string, options?: ITextboxOptions) => void
     getActiveOpacity: () => number
     changeOpacity: (value: number) => void
     bringForward: () => void
