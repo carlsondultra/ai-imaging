@@ -20,14 +20,16 @@ export const Toolbar = ({
   activeTool,
   onChangeActiveTool,
 }: ToolbarProps) => {
-  const fillColor = editor?.getActiveFillColor();
-  const strokeColor = editor?.getActiveStrokeColor();
-  const fontFamily = editor?.getActiveFontFamily()
-
-
+  const initialFillColor = editor?.getActiveFillColor();
+  const initialStrokeColor = editor?.getActiveStrokeColor();
+  const initialFontFamily = editor?.getActiveFontFamily()
   const initialFontWeight = editor?.getActiveFontWeight() || FONT_WEIGHT
+
   const [properties, setProperties] = useState({
-    fontWeight: initialFontWeight
+    fillColor: initialFillColor,
+    strokeColor: initialStrokeColor,
+    fontFamily: initialFontFamily,
+    fontWeight: initialFontWeight,
   })
 
   const selectedObjectType = editor?.selectedObjects[0]?.type;
@@ -67,7 +69,7 @@ export const Toolbar = ({
           >
             <div
               className="rounded-sm size-4 border"
-              style={{ backgroundColor: fillColor }}
+              style={{ backgroundColor: properties.fillColor }}
             />
           </Button>
         </Hint>
@@ -83,7 +85,7 @@ export const Toolbar = ({
             >
               <div
                 className="rounded-sm size-4 border-2 bg-white"
-                style={{ borderColor: strokeColor }}
+                style={{ borderColor: properties.strokeColor }}
               />
             </Button>
           </Hint>
@@ -113,7 +115,7 @@ export const Toolbar = ({
               className={cn("w-auto px-2 text-sm", activeTool === "font" && "bg-gray-100")}
             >
               <div className="max-w-[100px] truncate">
-                {fontFamily}
+                {properties.fontFamily}
               </div>
               <ChevronDown className="size-4 ml-2 shrink-0"/>
             </Button>
