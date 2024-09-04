@@ -23,7 +23,12 @@ export const Toolbar = ({
   const fillColor = editor?.getActiveFillColor();
   const strokeColor = editor?.getActiveStrokeColor();
   const fontFamily = editor?.getActiveFontFamily()
-  const fontWeight = editor?.getActiveFontWeight() || FONT_WEIGHT
+
+
+  const initialFontWeight = editor?.getActiveFontWeight() || FONT_WEIGHT
+  const [properties, setProperties] = useState({
+    fontWeight: initialFontWeight
+  })
 
   const selectedObjectType = editor?.selectedObjects[0]?.type;
 
@@ -35,9 +40,13 @@ export const Toolbar = ({
     if (!selectedObject) {
       return
     }
-      const newValue = fontWeight > 500 ? 500 : 700
+      const newValue = properties.fontWeight > 500 ? 500 : 700
 
       editor?.changeFontWeight(newValue)
+      setProperties((current) => ({
+        ...current,
+        fontWeight: newValue,
+      }))
   }
 
   if (editor?.selectedObjects.length === 0) {
@@ -119,7 +128,7 @@ export const Toolbar = ({
             size="icon"
             variant="ghost"
             className={cn(
-              fontWeight > 500 && "bg-gray-100"
+              properties.fontWeight > 500 && "bg-gray-100"
             )}
           >
             <FaBold className="size-4" />
