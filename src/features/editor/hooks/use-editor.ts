@@ -2,7 +2,7 @@ import { fabric } from "fabric";
 import { useCallback, useState, useMemo } from "react";
 
 import { useAutoResize } from "./use-auto-resize";
-import { BuildEditorProps, CIRCLE_OPTIONS, DIAMOND_OPTIONS, Editor, EditorHookProps, FILL_COLOR, FONT_FAMILY, RECTANGLE_OPTIONS, STROKE_COLOR, STROKE_DASH_ARRAY, STROKE_WIDTH, TEXT_OPTIONS, TRIANGLE_OPTIONS } from "../types";
+import { BuildEditorProps, CIRCLE_OPTIONS, DIAMOND_OPTIONS, Editor, EditorHookProps, FILL_COLOR, FONT_FAMILY, FONT_WEIGHT, RECTANGLE_OPTIONS, STROKE_COLOR, STROKE_DASH_ARRAY, STROKE_WIDTH, TEXT_OPTIONS, TRIANGLE_OPTIONS } from "../types";
 import { useCanvasEvents } from "./use-canvas-events";
 import { isTextType } from "../utils";
 
@@ -59,6 +59,16 @@ const buildEditor = ({
       const value = selectedObject.get("opacity") || 1
 
       return value
+    },
+
+    changeFontWeight: (value: number) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if(isTextType(object.type)) {
+          // @ts-ignore
+          object.set({fontWeight: value})
+        }
+      })
+      canvas.renderAll()
     },
 
     changeOpacity: (value: number) => {
@@ -224,6 +234,19 @@ const buildEditor = ({
       addToCanvas(object)
     },
     canvas,
+    getActiveFontWeight: () => {
+      const selectedObject = selectedObjects[0]
+
+      if (!selectedObject) {
+        return FONT_WEIGHT
+      }
+
+      // @ts-ignore
+      // faulty TS library
+      const value = selectedObject.get("fontWeight") || FONT_WEIGHT
+
+      return value
+    },
     getActiveFontFamily: () => {
       const selectedObject = selectedObjects[0]
 
