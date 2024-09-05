@@ -7,7 +7,7 @@ import { BsBorderWidth } from "react-icons/bs";
 import { ArrowUp, ArrowDown, ChevronDown } from "lucide-react";
 import { RxTransparencyGrid } from "react-icons/rx";
 import { isTextType } from "../utils";
-import { FaBold } from "react-icons/fa6";
+import { FaBold, FaItalic } from "react-icons/fa6";
 
 interface ToolbarProps {
   editor: Editor | undefined;
@@ -24,21 +24,22 @@ export const Toolbar = ({
   const initialStrokeColor = editor?.getActiveStrokeColor();
   const initialFontFamily = editor?.getActiveFontFamily()
   const initialFontWeight = editor?.getActiveFontWeight() || FONT_WEIGHT
+  const initialFontStyle = editor?.getActiveFontStyle() 
 
   const [properties, setProperties] = useState({
     fillColor: initialFillColor,
     strokeColor: initialStrokeColor,
     fontFamily: initialFontFamily,
     fontWeight: initialFontWeight,
+    fontStyle: initialFontStyle,
   })
 
+  const selectedObject = editor?.selectedObjects[0]
   const selectedObjectType = editor?.selectedObjects[0]?.type;
 
   const isText = isTextType(selectedObjectType);
 
   const toggleBold = () => {
-    const selectedObject = editor?.selectedObjects[0]
-
     if (!selectedObject) {
       return
     }
@@ -48,6 +49,21 @@ export const Toolbar = ({
       setProperties((current) => ({
         ...current,
         fontWeight: newValue,
+      }))
+  }
+
+  const toggleItalic = () => {
+
+    if (!selectedObject) {
+      return
+    }
+      const isItalic = properties.fontStyle === "italic"
+      const newValue = isItalic ? "normal" : "italic"
+
+      editor?.changeFontStyle(newValue)
+      setProperties((current) => ({
+        ...current,
+        fontStyle: newValue,
       }))
   }
 
@@ -134,6 +150,22 @@ export const Toolbar = ({
             )}
           >
             <FaBold className="size-4" />
+          </Button>
+        </Hint>
+      </div>
+      )}
+      {isText && (
+        <div className="flex items-center h-full justify-center">
+        <Hint label="Italic" side="bottom" sideOffset={5}>
+          <Button
+            onClick={toggleItalic}
+            size="icon"
+            variant="ghost"
+            className={cn(
+              properties.fontStyle === "italic" && "bg-gray-100"
+            )}
+          >
+            <FaItalic className="size-4" />
           </Button>
         </Hint>
       </div>

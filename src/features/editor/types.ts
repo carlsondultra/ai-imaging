@@ -152,6 +152,8 @@ export type ActiveTool =
   }
 
   export interface Editor {
+    changeFontStyle: (value: string) => void
+    getActiveFontStyle: () => string
     changeFontWeight: (value: number) => void
     getActiveFontWeight: () => number
     getActiveFontFamily: () => string

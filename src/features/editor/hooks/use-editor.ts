@@ -61,6 +61,29 @@ const buildEditor = ({
       return value
     },
 
+    changeFontStyle: (value: string) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if(isTextType(object.type)) {
+          // @ts-ignore
+          object.set({fontStyle: value})
+        }
+      })
+      canvas.renderAll()
+    },
+    getActiveFontStyle: () => {
+      const selectedObject = selectedObjects[0]
+
+      if (!selectedObject) {
+        return "normal"
+      }
+
+      // @ts-ignore
+      // faulty TS library
+      const value = selectedObject.get("fontStyle") || "normal"
+
+      return value
+    },
+
     changeFontWeight: (value: number) => {
       canvas.getActiveObjects().forEach((object) => {
         if(isTextType(object.type)) {
