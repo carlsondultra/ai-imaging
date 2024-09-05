@@ -60,6 +60,28 @@ const buildEditor = ({
 
       return value
     },
+    changeTextAlign: (value: string) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if(isTextType(object.type)) {
+          // @ts-ignore
+          object.set({textAlign: value})
+        }
+      })
+      canvas.renderAll()
+    },
+    getActiveTextAlign: () => {
+      const selectedObject = selectedObjects[0]
+
+      if (!selectedObject) {
+        return "left"
+      }
+
+      // @ts-ignore
+      // faulty TS library
+      const value = selectedObject.get("textAlign") || "left"
+
+      return value
+    },
     changeFontUnderline: (value: boolean) => {
       canvas.getActiveObjects().forEach((object) => {
         if(isTextType(object.type)) {

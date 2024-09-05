@@ -152,6 +152,8 @@ export type ActiveTool =
   }
 
   export interface Editor {
+    changeTextAlign: (value: string) => void
+    getActiveTextAlign: () => string
     changeFontLinethrough: (value: boolean) => void
     getActiveFontLinethrough: () => boolean
     changeFontUnderline: (value: boolean) => void
