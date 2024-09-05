@@ -60,7 +60,50 @@ const buildEditor = ({
 
       return value
     },
+    changeFontUnderline: (value: boolean) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if(isTextType(object.type)) {
+          // @ts-ignore
+          object.set({underline: value})
+        }
+      })
+      canvas.renderAll()
+    },
+    getActiveFontUnderline: () => {
+      const selectedObject = selectedObjects[0]
 
+      if (!selectedObject) {
+        return false
+      }
+
+      // @ts-ignore
+      // faulty TS library
+      const value = selectedObject.get("underline") || false
+
+      return value
+    },
+    changeFontLinethrough: (value: boolean) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if(isTextType(object.type)) {
+          // @ts-ignore
+          object.set({linethrough: value})
+        }
+      })
+      canvas.renderAll()
+    },
+    getActiveFontLinethrough: () => {
+      const selectedObject = selectedObjects[0]
+
+      if (!selectedObject) {
+        return false
+      }
+
+      // @ts-ignore
+      // faulty TS library
+      const value = selectedObject.get("linethrough") || false
+
+      return value
+    },
     changeFontStyle: (value: string) => {
       canvas.getActiveObjects().forEach((object) => {
         if(isTextType(object.type)) {
