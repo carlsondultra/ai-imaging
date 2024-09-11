@@ -5,6 +5,7 @@ import { ToolSidebarClose } from "./tool-sidebar-close";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useGetImages } from "@/features/images/api/use-get-images";
 import { AlertTriangle, Loader } from "lucide-react";
+import Image from "next/image";
 
 interface ImageSidebarProps {
     editor: Editor | undefined
@@ -49,7 +50,21 @@ export const ImageSidebar = ({
             )}
             <ScrollArea>
                 <div className="p-4 space-y-1 border-b">
-                   
+                   {data && data.map((image) => {
+                    return (
+                        <button
+                            key={image.id}
+                            className="relative w-full h-[100px] group hover:opacity-75 transition bg-muted rounded-sm overflow-hidden border"
+                        >
+                            <Image
+                                fill
+                                src={image.urls.small}
+                                alt={image.alt_description || "Image"}
+                                className="object-cover"
+                            />
+                        </button>
+                    )
+                   })}
                 </div>
             </ScrollArea>
 
