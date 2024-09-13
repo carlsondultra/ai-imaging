@@ -3,12 +3,10 @@ import { ActiveTool, Editor } from "../types";
 import { ToolSidebarHeader } from "./tool-sidebar-header";
 import { ToolSidebarClose } from "./tool-sidebar-close";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useGenerateImage } from "@/features/ai/api/use-generate-image";
-import { useState } from "react";
 import Image from "next/image";
 import { AlertTriangle } from "lucide-react";
+import { useRemoveBg } from "@/features/ai/api/use-remove-background";
 
 interface RemoveBgSidebarProps {
   editor: Editor | undefined;
@@ -21,6 +19,9 @@ export const RemoveBgSidebar = ({
   activeTool,
   onChangeActiveTool,
 }: RemoveBgSidebarProps) => {
+
+  const mutation = useRemoveBg()
+
   const selectedObject = editor?.selectedObjects[0];
   // @ts-ignore
   const imageSrc = selectedObject?._originalElement?.currentSrc;
@@ -30,7 +31,13 @@ export const RemoveBgSidebar = ({
   };
 
   const onClick = () => {
-    console.log("removing");
+    mutation.mutate({
+      image: imageSrc,
+    }, {
+      onSuccess: ({ data}) => {
+        editor?.addImage(data)
+      }
+    })
   };
 
   return (
