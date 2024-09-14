@@ -13,6 +13,7 @@ import {
   AlignRight,
   Trash,
   SquareSplitHorizontal,
+  Copy,
 } from "lucide-react";
 import { RxTransparencyGrid } from "react-icons/rx";
 import { isTextType } from "../utils";
@@ -389,6 +390,16 @@ export const Toolbar = ({
         <Hint label="Delete" side="bottom" sideOffset={5}>
           <Button onClick={() => editor?.delete()} size="icon" variant="ghost">
             <Trash className="size-4" />
+          </Button>
+        </Hint>
+      </div>
+      <div className="flex items-center h-full justify-center">
+        <Hint label="Duplicate" side="bottom" sideOffset={5}>
+          <Button onClick={() => {
+            editor?.onCopy()
+            editor?.onPaste()
+          }} size="icon" variant="ghost">
+            <Copy className="size-4" />
           </Button>
         </Hint>
       </div>
