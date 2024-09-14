@@ -19,6 +19,7 @@ import { ImageSidebar } from "./image-sidebar";
 import { FilterSidebar } from "./filter-sidebar";
 import { AiSidebar } from "./ai-sidebar";
 import { RemoveBgSidebar } from "./remove-bg-sidebar";
+import { DrawSidebar } from "./draw-sidebar";
 
 
 
@@ -138,6 +139,11 @@ export const Editor = () => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <RemoveBgSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <DrawSidebar
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
