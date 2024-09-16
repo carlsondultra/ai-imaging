@@ -53,7 +53,7 @@ const buildEditor = ({
       const center = canvas.getCenter()
       canvas.zoomToPoint(
         new fabric.Point(center.left, center.top),
-        zoomRatio,
+        zoomRatio > 1 ? 1 : zoomRatio
       )
     },
     zoomOut: () => {
