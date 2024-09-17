@@ -2,12 +2,18 @@ import { fabric } from "fabric";
 import { useCallback, useState, useMemo } from "react";
 
 import { useAutoResize } from "./use-auto-resize";
-import { BuildEditorProps, CIRCLE_OPTIONS, DIAMOND_OPTIONS, Editor, EditorHookProps, FILL_COLOR, FONT_FAMILY, FONT_SIZE, FONT_WEIGHT, RECTANGLE_OPTIONS, STROKE_COLOR, STROKE_DASH_ARRAY, STROKE_WIDTH, TEXT_OPTIONS, TRIANGLE_OPTIONS } from "../types";
+import { BuildEditorProps, CIRCLE_OPTIONS, DIAMOND_OPTIONS, Editor, EditorHookProps, FILL_COLOR, FONT_FAMILY, FONT_SIZE, FONT_WEIGHT, JSON_KEYS, RECTANGLE_OPTIONS, STROKE_COLOR, STROKE_DASH_ARRAY, STROKE_WIDTH, TEXT_OPTIONS, TRIANGLE_OPTIONS } from "../types";
 import { useCanvasEvents } from "./use-canvas-events";
 import { createFilter, isTextType } from "../utils";
 import { useClipboard } from "./use-clipboard";
+import { useHistory } from "./use-history";
 
 const buildEditor = ({ 
+  save,
+  undo,
+  redo,
+  canRedo,
+  canUndo,
   autoZoom,
   copy,
   paste,
@@ -45,6 +51,8 @@ const buildEditor = ({
   }
 
   return {
+    canUndo,
+    canRedo,
     autoZoom,
     getWorkspace,
     zoomIn: () => {
@@ -71,11 +79,13 @@ const buildEditor = ({
 
       workspace?.set(value)
       autoZoom()
+      save()
     },
     changeBackground: (value: string) => {
       const workspace = getWorkspace()
       workspace?.set({ fill: value })
       canvas.renderAll()
+      save()
     },
     enableDrawingMode: () => {
       canvas.discardActiveObject()
@@ -87,6 +97,8 @@ const buildEditor = ({
     disableDrawingMode: () => {
       canvas.isDrawingMode = false
     },
+    onUndo: () => undo(),
+    onRedo: () => redo(),
     onCopy: () => copy(),
     onPaste: () => paste(),
     changeImageFilter: (value: string) => {
@@ -521,6 +533,8 @@ export const useEditor = ({
   const [strokeWidth, setStrokeWidth] = useState(STROKE_WIDTH)
   const [strokeDashArray, setStrokeDashArray] = useState<number[]>(STROKE_DASH_ARRAY)
 
+  const { save, canRedo, canUndo, undo, redo, canvasHistory, setHistoryIndex } = useHistory({ canvas })
+
   const { copy, paste } = useClipboard({ canvas })
 
 const { autoZoom } = useAutoResize({
@@ -529,6 +543,7 @@ const { autoZoom } = useAutoResize({
   });
 
   useCanvasEvents({
+    save,
     canvas,
     setSelectedObjects,
     container,
@@ -538,6 +553,11 @@ const { autoZoom } = useAutoResize({
   const editor = useMemo(() => {
     if (canvas) {
       return buildEditor({
+        save,
+        undo,
+        redo,
+        canUndo,
+        canRedo,
         autoZoom,
         copy,
         paste,
@@ -558,6 +578,11 @@ const { autoZoom } = useAutoResize({
 
     return undefined;
   }, [
+    canRedo,
+    canUndo,
+    undo,
+    redo,
+    save,
     autoZoom,
     copy,
     paste,
@@ -609,8 +634,17 @@ const { autoZoom } = useAutoResize({
 
       setCanvas(initialCanvas);
       setContainer(initialContainer);
+
+      const currentState = JSON.stringify(
+        initialCanvas.toJSON(JSON_KEYS)
+      )
+      canvasHistory.current = [currentState]
+      setHistoryIndex(0)
     },
-    []
+    [
+      canvasHistory,
+      setHistoryIndex
+    ]
   );
 
   return { init, editor };
