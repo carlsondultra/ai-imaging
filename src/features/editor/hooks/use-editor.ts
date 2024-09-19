@@ -8,6 +8,7 @@ import { createFilter, downloadFile, isTextType, transformText } from "../utils"
 import { useClipboard } from "./use-clipboard";
 import { useHistory } from "./use-history";
 import { useHotkeys } from "./use-hotkeys";
+import { useWindowEvents } from "./use-window-events";
 
 const buildEditor = ({ 
   save,
@@ -601,6 +602,8 @@ export const useEditor = ({
   const [strokeColor, setStrokeColor] = useState(STROKE_COLOR)
   const [strokeWidth, setStrokeWidth] = useState(STROKE_WIDTH)
   const [strokeDashArray, setStrokeDashArray] = useState<number[]>(STROKE_DASH_ARRAY)
+
+  useWindowEvents()
 
   const { save, canRedo, canUndo, undo, redo, canvasHistory, setHistoryIndex } = useHistory({ canvas })
 
