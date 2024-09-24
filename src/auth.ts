@@ -2,8 +2,15 @@ import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
 import {DrizzleAdapter} from "@auth/drizzle-adapter"
+import { JWT } from "next-auth/jwt"
 
 import { db } from "./db/drizzle"
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string | undefined
+  }
+}
  
 export const { handlers, signIn, signOut, auth } = 
 NextAuth({
