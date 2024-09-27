@@ -63,6 +63,8 @@ export const SignUpCard = () => {
             placeholder="Password"
             type="password"
             required
+            minLength={3}
+            maxLength={20}
           />
           <Button type="submit" className="w-full" size="lg">
             Continue
