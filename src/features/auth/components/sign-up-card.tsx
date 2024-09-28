@@ -15,9 +15,12 @@ import {signIn} from "next-auth/react"
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
+import { useSignUp } from "../hooks/use-sign-up";
 
 
 export const SignUpCard = () => {
+  const mutation = useSignUp()
+
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -31,6 +34,15 @@ export const SignUpCard = () => {
     ) => {
       e.preventDefault()
 
+      mutation.mutate({
+        name,
+        email,
+        password
+      }, {
+        onSuccess: () => {
+          console.log("registered")
+        }
+      })
     }
 
   return (
