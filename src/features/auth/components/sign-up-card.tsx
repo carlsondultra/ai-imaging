@@ -56,6 +56,7 @@ export const SignUpCard = () => {
       <CardContent className="space-y-5 px-0 pb-0">
       <form onSubmit={onCredentialSignUp} className="space-y-2.5">
           <Input
+            disabled={mutation.isPending}
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Full name"
@@ -63,6 +64,7 @@ export const SignUpCard = () => {
             required
           />
           <Input
+          disabled={mutation.isPending}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
@@ -70,6 +72,7 @@ export const SignUpCard = () => {
             required
           />
           <Input
+          disabled={mutation.isPending}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
@@ -78,7 +81,7 @@ export const SignUpCard = () => {
             minLength={3}
             maxLength={20}
           />
-          <Button type="submit" className="w-full" size="lg">
+          <Button disabled={mutation.isPending} type="submit" className="w-full" size="lg">
             Continue
           </Button>
 
@@ -86,6 +89,7 @@ export const SignUpCard = () => {
         <Separator />
         <div className="flex flex-col gap-y-2.5">
           <Button
+          disabled={mutation.isPending}
             onClick={() => onProviderSignUp("github")}
             variant="outline"
             size="lg"
@@ -95,6 +99,7 @@ export const SignUpCard = () => {
             Continue with Github
           </Button>
           <Button
+          disabled={mutation.isPending}
           onClick={() => onProviderSignUp("google")}
           variant="outline"
           size="lg"
