@@ -40,7 +40,11 @@ export const SignUpCard = () => {
         password
       }, {
         onSuccess: () => {
-          console.log("registered")
+          signIn("credentials", {
+            email,
+            password,
+            callbackUrl: "/",
+          })
         }
       })
     }

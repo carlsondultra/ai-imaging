@@ -4,8 +4,17 @@ import Google from "next-auth/providers/google"
 import Credentials from "next-auth/providers/credentials"
 import {DrizzleAdapter} from "@auth/drizzle-adapter"
 import { JWT } from "next-auth/jwt"
+import bcrypt from "bcryptjs"
 
 import { db } from "./db/drizzle"
+import { z } from "zod"
+import { users } from "./db/schema"
+import { eq } from "drizzle-orm"
+
+const CredentialsSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+})
 
 declare module "next-auth/jwt" {
   interface JWT {
@@ -23,9 +32,35 @@ NextAuth({
         password: {label: "Password", type: "password"}
       },
       async authorize(credentials) {
-        console.log({ credentials })
+        const validatedFields = CredentialsSchema.safeParse(credentials)
 
-        return null
+        if (!validatedFields.success) {
+          return null
+        }
+        
+        const { email, password } = validatedFields.data
+
+        const query = await db
+        .select()
+        .from(users)
+        .where(eq(users.email, email))
+
+        const user = query[0]
+
+        if (!user || !user.password) {
+          return null
+        }
+
+        const passwordsMatch = await bcrypt.compare(
+          password,
+          user.password,
+        )
+
+        if (!passwordsMatch) {
+          return null
+        }
+
+        return user
       },
   }), 
   GitHub, 
