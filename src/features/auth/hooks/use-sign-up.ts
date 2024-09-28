@@ -24,6 +24,9 @@ export const useSignUp = () => {
         },
         onError: () => {
             toast.error("Something went wrong")
+        },
+        onSuccess: () => {
+            toast.success("User Created")
         }
     })
     return mutation
