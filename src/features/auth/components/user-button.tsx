@@ -31,7 +31,7 @@ export const UserButton = () => {
             <DropdownMenuTrigger>
                 <Avatar className="size-10 hover:opacity-75 transition">
                     <AvatarImage alt={name} src={imageUrl || ""} />
-                    <AvatarFallback className="bg-blue-500 font-medium text-white">
+                    <AvatarFallback className="bg-blue-500 font-medium text-white flex items-center justify-center">
                         {name.charAt(0).toUpperCase()}
                     </AvatarFallback>
                 </Avatar>
@@ -43,6 +43,7 @@ export const UserButton = () => {
                     className="h-10"
                 >
                     <CreditCard className="size-4 mr-2"/>
+                    Billing
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="h-10" onClick={() => signOut()}>
