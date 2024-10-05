@@ -15,6 +15,13 @@
       "when": 1727317092782,
       "tag": "0001_mushy_wildside",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1728095493926,
+      "tag": "0002_gigantic_kronos",
+      "breakpoints": true
     }
   ]
 }
