@@ -5,6 +5,8 @@ import { AuthConfig, initAuthConfig } from "@hono/auth-js"
 import images from "./images"
 import ai from "./ai"
 import users from "./users"
+import projects from "./projects"
+
 import authConfig from "@/auth.config"
 
 // use edge or nodejs (preference)
@@ -26,6 +28,7 @@ const routes = app
     .route("/ai", ai)
     .route("/images", images)
     .route("/users", users)
+    .route("/projects", projects)
 
 export const GET = handle(app)
 export const POST = handle(app)
