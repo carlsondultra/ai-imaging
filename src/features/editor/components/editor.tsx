@@ -21,10 +21,13 @@ import { AiSidebar } from "./ai-sidebar";
 import { RemoveBgSidebar } from "./remove-bg-sidebar";
 import { DrawSidebar } from "./draw-sidebar";
 import { SettingsSidebar } from "./settings-sidebar";
+import { ResponseType } from "@/features/projects/api/use-get-project";
 
+interface EditorProps {
+  initialData: ResponseType["data"];
+}
 
-
-export const Editor = () => {
+export const Editor = ({ initialData }: EditorProps) => {
   const [activeTool, setActiveTool] = useState<ActiveTool>("select"); //defaulttool is select when using editor
 
   const onClearSelection = useCallback(() => {
