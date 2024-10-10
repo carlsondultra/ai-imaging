@@ -22,12 +22,23 @@ import { RemoveBgSidebar } from "./remove-bg-sidebar";
 import { DrawSidebar } from "./draw-sidebar";
 import { SettingsSidebar } from "./settings-sidebar";
 import { ResponseType } from "@/features/projects/api/use-get-project";
+import { useUpdateProject } from "@/features/projects/api/use-update-project";
 
 interface EditorProps {
   initialData: ResponseType["data"];
 }
 
 export const Editor = ({ initialData }: EditorProps) => {
+  const {mutate} = useUpdateProject(initialData.id)
+
+  const debouncedSave = useCallback((values: {
+    json: string,
+    height: number,
+    width: number,
+  }) => {
+    mutate(values)
+  }, [mutate])
+
   const [activeTool, setActiveTool] = useState<ActiveTool>("select"); //defaulttool is select when using editor
 
   const onClearSelection = useCallback(() => {
@@ -38,6 +49,7 @@ export const Editor = ({ initialData }: EditorProps) => {
 
   const { init, editor } = useEditor({
     clearSelectionCallback: onClearSelection,
+    saveCallback: debouncedSave
   });
 
   const onChangeActiveTool = useCallback(
