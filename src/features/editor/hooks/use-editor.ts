@@ -606,7 +606,10 @@ export const useEditor = ({
 
   useWindowEvents()
 
-  const { save, canRedo, canUndo, undo, redo, canvasHistory, setHistoryIndex } = useHistory({ canvas })
+  const { save, canRedo, canUndo, undo, redo, canvasHistory, setHistoryIndex } = useHistory({
+     canvas,
+     saveCallback,
+    })
 
   const { copy, paste } = useClipboard({ canvas })
 
