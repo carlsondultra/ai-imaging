@@ -11,7 +11,7 @@ interface UseHistoryProps {
     }) => void 
 }
 
-export const useHistory = ({ canvas }: UseHistoryProps) => {
+export const useHistory = ({ canvas, saveCallback }: UseHistoryProps) => {
 
     const [historyIndex, setHistoryIndex] = useState(0)
     const canvasHistory = useRef<string[]> ([])
@@ -36,8 +36,15 @@ export const useHistory = ({ canvas }: UseHistoryProps) => {
             setHistoryIndex(canvasHistory.current.length - 1)
         }
 
+        const workspace = canvas
+            .getObjects()
+            .find((object) => object.name === "clip")
+        const height = workspace?.height || 0
+        const width = workspace?.width || 0
 
-    }, [
+        saveCallback?.({ json, height, width })
+    }, 
+    [
         canvas
     ])
 

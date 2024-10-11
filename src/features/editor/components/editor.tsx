@@ -36,6 +36,8 @@ export const Editor = ({ initialData }: EditorProps) => {
     height: number,
     width: number,
   }) => {
+    console.log("saving...")
+
     mutate(values)
   }, [mutate])
 
