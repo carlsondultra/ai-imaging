@@ -706,8 +706,8 @@ const { autoZoom } = useAutoResize({
         cornerStrokeColor: "#3b82f6",
       });
       const initialWorkspace = new fabric.Rect({
-        width: 900,
-        height: 1200,
+        width: initialWidth.current,
+        height: initialHeight.current,
         name: "clip",
         fill: "white",
         selectable: false,
