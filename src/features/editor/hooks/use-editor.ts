@@ -1,5 +1,5 @@
 import { fabric } from "fabric";
-import { useCallback, useState, useMemo } from "react";
+import { useCallback, useState, useMemo, useRef } from "react";
 
 import { useAutoResize } from "./use-auto-resize";
 import { BuildEditorProps, CIRCLE_OPTIONS, DIAMOND_OPTIONS, Editor, EditorHookProps, FILL_COLOR, FONT_FAMILY, FONT_SIZE, FONT_WEIGHT, JSON_KEYS, RECTANGLE_OPTIONS, STROKE_COLOR, STROKE_DASH_ARRAY, STROKE_WIDTH, TEXT_OPTIONS, TRIANGLE_OPTIONS } from "../types";
@@ -591,9 +591,17 @@ const buildEditor = ({
 };
 
 export const useEditor = ({
+  defaultState,
+  defaultHeight,
+  defaultWidth,
   clearSelectionCallback,
   saveCallback,
 }: EditorHookProps) => {
+  const initialState = useRef(defaultState)
+  const initialWidth = useRef(defaultWidth)
+  const initialHeight = useRef(defaultHeight)
+
+
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [selectedObjects, setSelectedObjects] = useState<fabric.Object[]>([])
