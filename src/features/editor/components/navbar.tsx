@@ -26,6 +26,7 @@ import { useFilePicker } from "use-file-picker"
 import { UserButton } from "@/features/auth/components/user-button";
 
 interface NavbarProps {
+  id: string
   editor: Editor | undefined
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
