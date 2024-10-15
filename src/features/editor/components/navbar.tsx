@@ -12,6 +12,7 @@ import {
 import {
   ChevronDown,
   Download,
+  Loader,
   MousePointerClick,
   Redo2,
   Undo2,
@@ -19,7 +20,7 @@ import {
 import { CiFileOn } from "react-icons/ci";
 import { Separator } from "@/components/ui/separator";
 import { Hint } from "@/components/hint";
-import { BsCloudCheck } from "react-icons/bs";
+import { BsCloudCheck, BsCloudSlash } from "react-icons/bs";
 import { ActiveTool, Editor } from "../types";
 import { cn } from "@/lib/utils";
 import { useFilePicker } from "use-file-picker"
@@ -117,10 +118,24 @@ export const Navbar = ({
           </Button>
         </Hint>
         <Separator orientation="vertical" className="mx-2" />
-        <div className="flex items-center gap-x-2">
+        {isPending && (
+          <div className="flex items-center gap-x-2">
+          <Loader className="size-4 animate-spin text-muted-foreground" />
+          <div className="text-xs text-muted-foreground">Saving...</div>
+        </div>
+        )}
+        {!isPending && isError && (
+          <div className="flex items-center gap-x-2">
+          <BsCloudSlash className="size-[20px] text-muted-foreground" />
+          <div className="text-xs text-muted-foreground">Failed to save</div>
+        </div>
+        )}
+        {!isPending && !isError && (
+          <div className="flex items-center gap-x-2">
           <BsCloudCheck className="size-[20px] text-muted-foreground" />
           <div className="text-xs text-muted-foreground">Saved</div>
         </div>
+        )}
         <div className="ml-auto flex items-center gap-x-4">
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
