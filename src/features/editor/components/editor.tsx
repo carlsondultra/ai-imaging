@@ -23,6 +23,7 @@ import { DrawSidebar } from "./draw-sidebar";
 import { SettingsSidebar } from "./settings-sidebar";
 import { ResponseType } from "@/features/projects/api/use-get-project";
 import { useUpdateProject } from "@/features/projects/api/use-update-project";
+import debounce from "lodash.debounce"
 
 interface EditorProps {
   initialData: ResponseType["data"];
@@ -31,15 +32,17 @@ interface EditorProps {
 export const Editor = ({ initialData }: EditorProps) => {
   const {mutate} = useUpdateProject(initialData.id)
 
-  const debouncedSave = useCallback((values: {
-    json: string,
-    height: number,
-    width: number,
-  }) => {
-    console.log("saving...")
-
-    mutate(values)
-  }, [mutate])
+  const debouncedSave = useCallback(
+    debounce(
+      (values: {
+        json: string,
+        height: number,
+        width: number,
+      }) => {
+      mutate(values)
+    },
+    500 //time in milliseconds 
+  ), [mutate])
 
   const [activeTool, setActiveTool] = useState<ActiveTool>("select"); //defaulttool is select when using editor
 
