@@ -24,6 +24,7 @@ import { ActiveTool, Editor } from "../types";
 import { cn } from "@/lib/utils";
 import { useFilePicker } from "use-file-picker"
 import { UserButton } from "@/features/auth/components/user-button";
+import { useMutationState } from "@tanstack/react-query";
 
 interface NavbarProps {
   id: string
@@ -32,7 +33,26 @@ interface NavbarProps {
   onChangeActiveTool: (tool: ActiveTool) => void;
 }
 
-export const Navbar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) => {
+export const Navbar = ({ 
+  id,
+  editor, 
+  activeTool, 
+  onChangeActiveTool 
+}: NavbarProps) => {
+  const data = useMutationState({
+    filters: {
+      mutationKey: ["project", { id }],
+      exact: true,
+    },
+    select: (mutation) => mutation.state.status,
+  })
+
+  const currentStatus = data[data.length - 1]
+
+  const isError = currentStatus === "error"
+  const isPending = currentStatus === "pending"
+
+
 
   const { openFilePicker } = useFilePicker({
     accept: ".json",
