@@ -2,7 +2,8 @@
 
 import { Table, TableRow, TableBody, TableCell } from "@/components/ui/table"
 import { useGetProjects } from "@/features/projects/api/use-get-projects"
-import { AlertTriangle, Loader, Search } from "lucide-react"
+import { AlertTriangle, FileIcon, Loader, Search } from "lucide-react"
+import React from "react"
 
 export const ProjectsSection = () => {
     const {
@@ -65,7 +66,18 @@ export const ProjectsSection = () => {
             </h3>
             <Table>
                 <TableBody>
-
+                    {data.pages.map((group, i) => (
+                        <React.Fragment key={i}>
+                            {group.data.map((project) => (
+                                <TableRow key={project.id}>
+                                    <TableCell className="font-medium flex items-center gap-x-2 cursor-pointer">
+                                        <FileIcon className="size-6"/>
+                                        {project.name}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </React.Fragment>
+                    ))}
                 </TableBody>
             </Table>
         </div>
