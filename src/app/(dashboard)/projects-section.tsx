@@ -3,9 +3,13 @@
 import { Table, TableRow, TableBody, TableCell } from "@/components/ui/table"
 import { useGetProjects } from "@/features/projects/api/use-get-projects"
 import { AlertTriangle, FileIcon, Loader, Search } from "lucide-react"
+import { useRouter } from "next/navigation"
 import React from "react"
 
 export const ProjectsSection = () => {
+    const router = useRouter()
+
+
     const {
         data,
         status,
@@ -70,7 +74,10 @@ export const ProjectsSection = () => {
                         <React.Fragment key={i}>
                             {group.data.map((project) => (
                                 <TableRow key={project.id}>
-                                    <TableCell className="font-medium flex items-center gap-x-2 cursor-pointer">
+                                    <TableCell 
+                                        onClick={() => router.push(`/editor/${project.id}`)}
+                                        className="font-medium flex items-center gap-x-2 cursor-pointer"
+                                    >
                                         <FileIcon className="size-6"/>
                                         {project.name}
                                     </TableCell>
