@@ -81,6 +81,12 @@ export const ProjectsSection = () => {
                                         <FileIcon className="size-6"/>
                                         {project.name}
                                     </TableCell>
+                                    <TableCell
+                                        onClick={() => router.push(`/editor/${project.id}`)}
+                                        className="hidden md:table-cell cursor-pointer"
+                                    >
+                                        {project.width} x {project.height} px
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </React.Fragment>
