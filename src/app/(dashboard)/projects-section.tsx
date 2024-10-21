@@ -5,6 +5,7 @@ import { useGetProjects } from "@/features/projects/api/use-get-projects"
 import { AlertTriangle, FileIcon, Loader, Search } from "lucide-react"
 import { useRouter } from "next/navigation"
 import React from "react"
+import { formatDistanceToNow } from "date-fns"
 
 export const ProjectsSection = () => {
     const router = useRouter()
@@ -86,6 +87,14 @@ export const ProjectsSection = () => {
                                         className="hidden md:table-cell cursor-pointer"
                                     >
                                         {project.width} x {project.height} px
+                                    </TableCell>
+                                    <TableCell
+                                        onClick={() => router.push(`/editor/${project.id}`)}
+                                        className="hidden md:table-cell cursor-pointer"
+                                    >
+                                        {formatDistanceToNow(project.updatedAt, {
+                                            addSuffix: true,
+                                        })}
                                     </TableCell>
                                 </TableRow>
                             ))}
