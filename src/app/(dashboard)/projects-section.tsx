@@ -2,10 +2,17 @@
 
 import { Table, TableRow, TableBody, TableCell } from "@/components/ui/table"
 import { useGetProjects } from "@/features/projects/api/use-get-projects"
-import { AlertTriangle, FileIcon, Loader, Search } from "lucide-react"
+import { AlertTriangle, CopyIcon, FileIcon, Loader, MoreHorizontal, Search, Trash } from "lucide-react"
 import { useRouter } from "next/navigation"
 import React from "react"
 import { formatDistanceToNow } from "date-fns"
+import { 
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+ } from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
 
 export const ProjectsSection = () => {
     const router = useRouter()
@@ -95,6 +102,37 @@ export const ProjectsSection = () => {
                                         {formatDistanceToNow(project.updatedAt, {
                                             addSuffix: true,
                                         })}
+                                    </TableCell>
+                                    <TableCell className="flex items-center justify-end">
+                                        <DropdownMenu modal={false}>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button
+                                                    disabled={false}
+                                                    size="icon"
+                                                    variant="ghost"
+                                                >
+                                                    <MoreHorizontal className="size-4"/>
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end" className="w-60">
+                                                <DropdownMenuItem
+                                                    className="h-10 cursor-pointer"
+                                                    disabled={false}
+                                                    onClick={() => {}}
+                                                >
+                                                    <CopyIcon className="size-4 mr-2"/>
+                                                    Make a copy
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem
+                                                    className="h-10 cursor-pointer"
+                                                    disabled={false}
+                                                    onClick={() => {}}
+                                                >
+                                                    <Trash className="size-4 mr-2"/>
+                                                    Delete
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
                                     </TableCell>
                                 </TableRow>
                             ))}
