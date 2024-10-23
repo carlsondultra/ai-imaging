@@ -140,6 +140,18 @@ export const ProjectsSection = () => {
                     ))}
                 </TableBody>
             </Table>
+            {hasNextPage && (
+                <div className="w-full flex items-center justify-center pt-4">
+                    <Button
+                        variant="ghost"
+                        onClick={() => fetchNextPage()}
+                        disabled={isFetchingNextPage}
+                    >
+                        Load more
+                    </Button>
+                </div>
+
+            )}
         </div>
     )
 }
