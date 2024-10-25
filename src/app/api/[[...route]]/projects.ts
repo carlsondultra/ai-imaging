@@ -7,6 +7,35 @@ import { z } from "zod";
 import { eq, and, desc } from "drizzle-orm";
 
 const app = new Hono()
+    .delete(
+        "/:id",
+        verifyAuth(),
+        zValidator("param", z.object({ id: z.string() })),
+        async (c) => {
+            const auth = c.get("authUser")
+            const { id } = c.req.valid("param")
+
+            if (!auth.token?.id) {
+                return c.json({ error: "Unauthorized" }, 401)
+            }
+
+            const data = await db
+                .delete(projects)
+                .where(
+                    and(
+                        eq(projects.id, id),
+                        eq(projects.userId, auth.token.id),
+                    ),
+                )
+                .returning()
+
+            if (data.length === 0) {
+                return c.json({ error: "Not found" }, 401)
+            }
+
+            return c.json({ data: { id } })
+        },
+    )
     .post(
         "/:id/duplicate",
         verifyAuth(),
@@ -16,7 +45,7 @@ const app = new Hono()
             const { id } = c.req.valid("param")
 
             if (!auth.token?.id) {
-                return c.json({ error: "Unauthorized" })
+                return c.json({ error: "Unauthorized" }, 401)
             }
 
             const data = await db
