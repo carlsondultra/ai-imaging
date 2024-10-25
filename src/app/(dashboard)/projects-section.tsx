@@ -14,13 +14,19 @@ import {
  } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { useDuplicateProject } from "@/features/projects/api/use-duplicate-project"
+import { useDeleteProject } from "@/features/projects/api/use-delete-project"
 
 export const ProjectsSection = () => {
     const duplicateMutation = useDuplicateProject()
+    const removeMutation = useDeleteProject()
     const router = useRouter()
 
     const onCopy = (id: string) => {
         duplicateMutation.mutate({ id })
+    }
+
+    const onDelete = (id: string) => {
+        removeMutation.mutate({ id })
     }
 
     const {
@@ -130,8 +136,8 @@ export const ProjectsSection = () => {
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem
                                                     className="h-10 cursor-pointer"
-                                                    disabled={false}
-                                                    onClick={() => {}}
+                                                    disabled={removeMutation.isPending}
+                                                    onClick={() => onDelete(project.id)}
                                                 >
                                                     <Trash className="size-4 mr-2"/>
                                                     Delete
