@@ -8,7 +8,7 @@ import { AlertTriangle, Loader, Upload } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { UploadButton } from "@/lib/uploadthing";
-import { useGetTemplates } from "@/features/projects/api/use-get-templates";
+import { ResponseType, useGetTemplates } from "@/features/projects/api/use-get-templates";
 
 interface TemplateSidebarProps {
   editor: Editor | undefined;
@@ -29,6 +29,10 @@ export const TemplateSidebar = ({
   const onClose = () => {
     onChangeActiveTool("select");
   };
+
+  const onClick = async (template: ResponseType["data"][0]) => {
+    editor?.loadJson(template.json)
+  }
 
   return (
     <aside
@@ -62,9 +66,9 @@ export const TemplateSidebar = ({
                 return (
                   <button
                   style={{ aspectRatio: `${template.width}/${template.height}`}}
-                    onClick={() => {}}
+                    onClick={() => onClick(template)}
                     key={template.id}
-                    className="relative w-full h-[100px] group hover:opacity-75 transition bg-muted rounded-sm overflow-hidden border"
+                    className="relative w-full group hover:opacity-75 transition bg-muted rounded-sm overflow-hidden border"
                   >
                     <Image
                       fill
