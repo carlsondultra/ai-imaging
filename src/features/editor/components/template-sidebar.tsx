@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { UploadButton } from "@/lib/uploadthing";
 import { ResponseType, useGetTemplates } from "@/features/projects/api/use-get-templates";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface TemplateSidebarProps {
   editor: Editor | undefined;
@@ -21,6 +22,11 @@ export const TemplateSidebar = ({
   activeTool,
   onChangeActiveTool,
 }: TemplateSidebarProps) => {
+  const [ConfirmDialog, confirm] = useConfirm(
+    "Are you sure?",
+    "You are about to replace the current project with this template."
+  )
+
   const { data, isLoading, isError } = useGetTemplates({
     limit: "20",
     page: "1",
@@ -31,7 +37,12 @@ export const TemplateSidebar = ({
   };
 
   const onClick = async (template: ResponseType["data"][0]) => {
-    editor?.loadJson(template.json)
+
+    const ok = await confirm()
+
+    if (ok) {
+      editor?.loadJson(template.json)
+    }
   }
 
   return (
@@ -41,6 +52,7 @@ export const TemplateSidebar = ({
         activeTool === "templates" ? "visible" : "hidden"
       )}
     >
+      <ConfirmDialog />
       <ToolSidebarHeader
         title="Templates"
         description="Choose from a variety of templates"
