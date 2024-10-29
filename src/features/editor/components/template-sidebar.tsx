@@ -10,6 +10,7 @@ import Link from "next/link";
 import { UploadButton } from "@/lib/uploadthing";
 import { ResponseType, useGetTemplates } from "@/features/projects/api/use-get-templates";
 import { useConfirm } from "@/hooks/use-confirm";
+import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
 
 interface TemplateSidebarProps {
   editor: Editor | undefined;
@@ -22,6 +23,8 @@ export const TemplateSidebar = ({
   activeTool,
   onChangeActiveTool,
 }: TemplateSidebarProps) => {
+
+  const {shouldBlock,  triggerPaywall} = usePaywall()
   const [ConfirmDialog, confirm] = useConfirm(
     "Are you sure?",
     "You are about to replace the current project with this template."
@@ -37,6 +40,11 @@ export const TemplateSidebar = ({
   };
 
   const onClick = async (template: ResponseType["data"][0]) => {
+
+    if(template.isPro && shouldBlock) {
+      triggerPaywall()
+      return
+    }
 
     const ok = await confirm()
 
