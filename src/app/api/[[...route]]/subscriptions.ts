@@ -11,8 +11,8 @@ const app = new Hono()
         }
 
         const session = await stripe.checkout.sessions.create({
-            success_url: "http://localhost:3000?success=1",
-            cancel_url: "http://localhost:3000?canceled=1",
+            success_url: `${process.env.NEXT_PUBLIC_APP_URL}?success=1`,
+            cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}?canceled=1`,
             payment_method_types: ["card", "paypal"],
             mode: "subscription",
             billing_address_collection: "auto",
