@@ -10,9 +10,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { CreditCard, Loader, LogOut } from "lucide-react";
+import { CreditCard, Crown, Loader, LogOut } from "lucide-react";
+import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
 
 export const UserButton = () => {
+    const { shouldBlock, triggerPaywall, isLoading } = usePaywall()
     const session = useSession()
 
     if (session.status === "loading") {
@@ -28,7 +30,14 @@ export const UserButton = () => {
 
     return (
         <DropdownMenu modal={false}>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger className="outline-none relative">
+            {!shouldBlock && !isLoading && (
+          <div className="absolute -top-1 -left-1 z-10 flex items-center justify-center">
+            <div className="rounded-full bg-white flex items-center justify-center p-1 drop-shadow-sm">
+              <Crown className="size-3 text-yellow-500 fill-yellow-500" />
+            </div>
+          </div>
+        )}
                 <Avatar className="size-10 hover:opacity-75 transition">
                     <AvatarImage alt={name} src={imageUrl || ""} />
                     <AvatarFallback className="bg-blue-500 font-medium text-white flex items-center justify-center">
