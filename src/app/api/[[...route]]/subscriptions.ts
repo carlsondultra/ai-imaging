@@ -1,11 +1,34 @@
 import { db } from "@/db/drizzle";
 import { subscriptions } from "@/db/schema";
+import { checkIsActive } from "@/features/subscriptions/lib";
 import { stripe } from "@/lib/stripe";
 import { verifyAuth } from "@hono/auth-js";
+import { eq } from "drizzle-orm";
 import { Hono } from "hono";
 import Stripe from "stripe";
 
 const app = new Hono()
+    .get("/current", verifyAuth(), async (c) => {
+        const auth = c.get("authUser")
+
+        if (!auth.token?.id) {
+            return c.json({ error: "Unauthorized" }, 401)
+        }
+
+        const [subscription] = await db
+            .select()
+            .from(subscriptions)
+            .where(eq(subscriptions.userId, auth.token.id))
+
+        const active = checkIsActive(subscription)
+
+        return c.json({
+            data: {
+                ...subscription,
+                active,
+            },
+        })
+    })
     .post("/checkout", verifyAuth(), async (c) => {
         const auth = c.get("authUser")
 
@@ -83,6 +106,27 @@ const app = new Hono()
                     createdAt: new Date(),
                     updatedAt: new Date(),
                 })
+            }
+
+            if (event.type === "invoice.payment_succeeded") {
+                const subscription = await stripe.subscriptions.retrieve(
+                    session.subscription as string,
+                )
+                if (!session?.metadata?.userId) {
+                    return c.json({ error: "Invalid session"}, 400)
+                }
+
+                await db
+                    .update(subscriptions)
+                    .set({
+                        status: subscription.status,
+                        currentPeriodEnd: new Date(
+                            subscription.current_period_end * 1000,
+                        ),
+                        updatedAt: new Date(),
+                    })
+                    .where(eq(subscriptions.id, subscription.id))
+
             }
 
             return c.json(null, 200)
