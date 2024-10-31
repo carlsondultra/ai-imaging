@@ -1,6 +1,9 @@
+import { db } from "@/db/drizzle";
+import { subscriptions } from "@/db/schema";
 import { stripe } from "@/lib/stripe";
 import { verifyAuth } from "@hono/auth-js";
 import { Hono } from "hono";
+import Stripe from "stripe";
 
 const app = new Hono()
     .post("/checkout", verifyAuth(), async (c) => {
@@ -36,6 +39,55 @@ const app = new Hono()
 
         return c.json({ data: url })
     })
+    // only accessible through stripe
+    .post (
+        "/webhook",
+        async (c) => {
+            const body = await c.req.text()
+            const signature = c.req.header("Stripe-Signature") as string
+            
+            let event: Stripe.Event
+
+            try {
+                event = stripe.webhooks.constructEvent(
+                    body,
+                    signature,
+                    process.env.STRIPE_WEBHOOK_SECRET!
+                )
+            } catch (error) {
+                return c.json({ error: "Invalid signature" }, 400)
+            }
+
+            const session = event.data.object as Stripe.Checkout.Session
+
+            if (event.type === "checkout.session.completed") {
+                const subscription = await stripe.subscriptions.retrieve(
+                    session.subscription as string,
+                )
+            // extracting info from subscription
+            if (!session?.metadata?.userId) {
+                return c.json({ error: "Invalid session"}, 400)
+            }
+
+            await db 
+                .insert(subscriptions)
+                .values({
+                    status: subscription.status,
+                    userId: session.metadata.userId,
+                    subscriptionId: subscription.id,
+                    customerId: subscription.customer as string,
+                    priceId: subscription.items.data[0].price.product as string,
+                    currentPeriodEnd: new Date(
+                        subscription.current_period_end * 1000
+                    ),
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                })
+            }
+
+            return c.json(null, 200)
+        },
+    )
 
 export default app
 
