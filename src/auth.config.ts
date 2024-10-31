@@ -34,7 +34,7 @@ export default {
     Credentials({
       credentials: {
         email: { label: "Email", type: "email"},
-        password: {label: "Password", type: "password"}
+        pasword: {label: "Password", type: "password"}
       },
       async authorize(credentials) {
         const validatedFields = CredentialsSchema.safeParse(credentials)
@@ -69,7 +69,7 @@ export default {
       },
   }), 
   GitHub, 
-  Google, 
+  Google
   ],
   pages: {
     signIn: "/sign-in",
