@@ -12,10 +12,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { CreditCard, Crown, Loader, LogOut } from "lucide-react";
 import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
+import { useBilling } from "@/features/subscriptions/api/use-billing";
 
 export const UserButton = () => {
     const { shouldBlock, triggerPaywall, isLoading } = usePaywall()
+    const mutation = useBilling()
     const session = useSession()
+
+    const onClick = () => {
+        if (shouldBlock) {
+            triggerPaywall()
+            return
+        }
+
+        mutation.mutate()
+    }
 
     if (session.status === "loading") {
         return <Loader className="size-4 animate-spin text-muted-foreground"/>
@@ -47,8 +58,8 @@ export const UserButton = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-60">
                 <DropdownMenuItem
-                    disabled={false}
-                    onClick={() => {}}
+                    disabled={mutation.isPending}
+                    onClick={onClick}
                     className="h-10"
                 >
                     <CreditCard className="size-4 mr-2"/>

@@ -7,11 +7,22 @@ import { SidebarItem } from "./sidebar-item"
 import { usePathname } from "next/navigation"
 import { usePaywall } from "@/features/subscriptions/hooks/use-paywall"
 import { useCheckout } from "@/features/subscriptions/api/use-checkout"
+import { useBilling } from "@/features/subscriptions/api/use-billing"
 
 export const SidebarRoutes = () => {
     const mutation = useCheckout()
-    const { shouldBlock, isLoading } = usePaywall()
+    const billingMutation = useBilling()
+    const { shouldBlock, isLoading, triggerPaywall } = usePaywall()
     const pathname = usePathname()
+
+    const onClick = () => {
+        if (shouldBlock) {
+            triggerPaywall()
+            return
+        }
+
+        billingMutation.mutate()
+    }
 
 
     return (
@@ -52,7 +63,7 @@ export const SidebarRoutes = () => {
                     href={pathname}
                     icon={CreditCard}
                     label="Billing"
-                    onClick={() => {}}
+                    onClick={onClick}
                 />
                 <SidebarItem 
                     href="mailto:imaging@gmail.com"
